@@ -1,0 +1,4 @@
+name: FrostyCore
+version: '${version}'
+main: com.andrew.frostycore.Main
+api-version: '1.20'
