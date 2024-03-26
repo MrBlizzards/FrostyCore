@@ -1,9 +1,9 @@
-package com.andrew.frostycore.Commands;
+package com.andrew.frostycore.Commands.Player;
 
-import com.andrew.frostycore.Enums.StringEnum;
 import com.andrew.frostycore.Main;
 import com.andrew.frostycore.Managers.CommandManager;
 import com.andrew.frostycore.Utils.ChatColorUtil;
+import com.andrew.frostycore.Utils.ServerMessage;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.bukkit.ChatColor;
@@ -34,19 +34,19 @@ public class CraftCommand extends CommandManager {
     public void execute(CommandSender sender, String[] args) {
 
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(StringEnum.PLAYER_ONLY_COMMAND.getValue());
+            sender.sendMessage(ServerMessage.getPlayerOnlyCommand());
             return;
         }
 
         if (args.length != 0) {
-            player.sendMessage(ChatColorUtil.colorize(StringEnum.FROSTYCORE_PREFIX.getValue() + " &cUsage: /craft."));
+            player.sendMessage(ChatColorUtil.colorize(ServerMessage.getServerPrefix() + " &cUsage: /craft"));
             return;
         }
 
         if (!cooldown.asMap().containsKey(player.getUniqueId())) {
             cooldown.put(player.getUniqueId(), System.currentTimeMillis() + 3000);
             player.openWorkbench(null, true);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', StringEnum.FROSTYCORE_PREFIX.getValue() + ChatColorUtil.colorize(" &7Opening a virtual crafting table...")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerMessage.getServerPrefix() + ChatColorUtil.colorize(" &aOpening a virtual crafting table...")));
         } else {
             long distance = cooldown.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
             player.sendMessage(ChatColor.RED + "You must wait " + TimeUnit.MILLISECONDS.toSeconds(distance) + " seconds to use this again.");

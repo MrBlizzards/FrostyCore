@@ -1,9 +1,9 @@
-package com.andrew.frostycore.Commands;
+package com.andrew.frostycore.Commands.Server;
 
-import com.andrew.frostycore.Enums.StringEnum;
 import com.andrew.frostycore.Main;
 import com.andrew.frostycore.Managers.CommandManager;
 import com.andrew.frostycore.Utils.ChatColorUtil;
+import com.andrew.frostycore.Utils.ServerMessage;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.bukkit.Bukkit;
@@ -38,7 +38,7 @@ public class GamemodeCreative extends CommandManager {
     public void execute(CommandSender sender, String[] args) {
 
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(StringEnum.PLAYER_ONLY_COMMAND.getValue());
+            sender.sendMessage(ServerMessage.getPlayerOnlyCommand());
             return;
         }
 
@@ -47,18 +47,18 @@ public class GamemodeCreative extends CommandManager {
             if (args.length != 0) {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null) {
-                    player.sendMessage(ChatColorUtil.colorize(StringEnum.FROSTYCORE_PREFIX.getValue() + " " + StringEnum.PLAYER_NOT_FOUND.getValue()));
+                    player.sendMessage(ChatColorUtil.colorize(ServerMessage.getServerPrefix() + ServerMessage.getPlayerNotFound()));
                     return;
                 }
                 if (player != target) {
                     target.setGameMode(org.bukkit.GameMode.CREATIVE);
-                    player.sendMessage(ChatColorUtil.colorize(StringEnum.FROSTYCORE_PREFIX.getValue() + " &aYou have set " + target.getName() + "'s gamemode to creative."));
-                    target.sendMessage(ChatColorUtil.colorize(StringEnum.FROSTYCORE_PREFIX.getValue() + " &a" + player.getName() + " has set your gamemode to creative."));
+                    player.sendMessage(ChatColorUtil.colorize(ServerMessage.getServerPrefix() + " &aYou have set " + target.getName() + "'s gamemode to creative."));
+                    target.sendMessage(ChatColorUtil.colorize(ServerMessage.getServerPrefix() + " &a" + player.getName() + " has set your gamemode to creative."));
                     return;
                 }
             }
             player.setGameMode(org.bukkit.GameMode.CREATIVE);
-            player.sendMessage(ChatColorUtil.colorize(StringEnum.FROSTYCORE_PREFIX.getValue() + " &aYou have set your gamemode to creative."));
+            player.sendMessage(ChatColorUtil.colorize(ServerMessage.getServerPrefix() + " &aYou have set your gamemode to creative."));
         } else {
             long distance = cooldown.asMap().get(player.getUniqueId()) - System.currentTimeMillis();
             player.sendMessage(ChatColor.RED + "You must wait " + TimeUnit.MILLISECONDS.toSeconds(distance) + " seconds to use this again.");
