@@ -18,16 +18,13 @@ public class CraftCommand extends CommandManager {
 
     private Cache<UUID, Long> cooldown = CacheBuilder.newBuilder().expireAfterWrite(3, TimeUnit.SECONDS).build();
 
-    private Main main;
-
-    public CraftCommand(Main main) {
+    public CraftCommand() {
         super(
                 "craft",
                 new String[]{"craft", "c"},
                 "Opens a virtual crafting table.",
                 "",
                 "");
-        this.main = main;
     }
 
     @Override

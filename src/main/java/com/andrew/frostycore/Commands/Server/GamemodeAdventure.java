@@ -21,16 +21,13 @@ public class GamemodeAdventure extends CommandManager {
 
     private Cache<UUID, Long> cooldown = CacheBuilder.newBuilder().expireAfterWrite(3, TimeUnit.SECONDS).build();
 
-    private Main main;
-
-    public GamemodeAdventure(Main main) {
+    public GamemodeAdventure() {
         super(
                 "adventure",
                 new String[]{"gma"},
                 "Change your gamemode to adventure",
                 "",
                 "");
-        this.main = main;
     }
 
     @Override

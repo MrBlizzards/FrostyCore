@@ -21,16 +21,13 @@ public class GamemodeSpectator extends CommandManager {
 
         private Cache<UUID, Long> cooldown = CacheBuilder.newBuilder().expireAfterWrite(3, TimeUnit.SECONDS).build();
 
-        private Main main;
-
-        public GamemodeSpectator(Main main) {
+        public GamemodeSpectator() {
             super(
                     "gmspec",
                     new String[]{"gmspec"},
                     "Change your gamemode to spectator",
                     "",
                     "");
-            this.main = main;
         }
 
         @Override

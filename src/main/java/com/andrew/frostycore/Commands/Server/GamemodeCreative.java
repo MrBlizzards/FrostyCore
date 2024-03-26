@@ -21,17 +21,13 @@ public class GamemodeCreative extends CommandManager {
 
     private Cache<UUID, Long> cooldown = CacheBuilder.newBuilder().expireAfterWrite(3, TimeUnit.SECONDS).build();
 
-    private Main main;
-
-    public GamemodeCreative(Main main) {
+    public GamemodeCreative() {
         super(
                 "creative",
                 new String[]{"gmc"},
                 "Sets your gamemode to creative",
                 " ",
                 " ");
-        this.main = main;
-
     }
 
     @Override

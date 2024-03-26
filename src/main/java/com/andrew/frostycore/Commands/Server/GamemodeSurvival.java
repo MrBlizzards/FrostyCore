@@ -21,17 +21,13 @@ public class GamemodeSurvival extends CommandManager {
 
     private Cache<UUID, Long> cooldown = CacheBuilder.newBuilder().expireAfterWrite(3, TimeUnit.SECONDS).build();
 
-    private Main main;
-
-    public GamemodeSurvival(Main main) {
+    public GamemodeSurvival() {
         super(
                 "survival",
                 new String[]{"gms"},
                 "Changes your gamemode to survival",
                 "",
                 "");
-        this.main = main;
-
     }
     @Override
     public void execute(CommandSender sender, String[] args) {

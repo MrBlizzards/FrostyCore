@@ -82,7 +82,7 @@ public final class Main extends JavaPlugin {
     private void registerCommands() {
 
         // PLAYER COMMANDS
-        new CraftCommand(this);
+        new CraftCommand();
         new WarpCommand(this);
         new WarpsCommand(this);
 
@@ -90,11 +90,11 @@ public final class Main extends JavaPlugin {
         new DayCommand();
         new DeleteWarpCommand(this);
         new DuskCommand();
-        new EnderChestCommand(this);
-        new GamemodeAdventure(this);
-        new GamemodeCreative(this);
-        new GamemodeSpectator(this);
-        new GamemodeSurvival(this);
+        new EnderChestCommand();
+        new GamemodeAdventure();
+        new GamemodeCreative();
+        new GamemodeSpectator();
+        new GamemodeSurvival();
         new KillCommand(this);
         new MorningCommand();
         new NightCommand();

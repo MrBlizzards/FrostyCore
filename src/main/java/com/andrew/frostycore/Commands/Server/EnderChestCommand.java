@@ -21,16 +21,13 @@ public class EnderChestCommand extends CommandManager {
 
     private Cache<UUID, Long> cooldown = CacheBuilder.newBuilder().expireAfterWrite(3, TimeUnit.SECONDS).build();
 
-    private Main main;
-
-    public EnderChestCommand(Main main) {
+    public EnderChestCommand() {
         super(
                 "enderchest",
                 new String[]{"ec"},
                 "Opens a virtual furnace",
                 " ",
                 " ");
-        this.main = main;
 
     }
 
