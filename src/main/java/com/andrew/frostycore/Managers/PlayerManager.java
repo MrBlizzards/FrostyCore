@@ -1,7 +1,5 @@
 package com.andrew.frostycore.Managers;
 
-import com.andrew.frostycore.Enums.RankEnum;
-
 import java.util.HashMap;
 import java.util.UUID;
 
