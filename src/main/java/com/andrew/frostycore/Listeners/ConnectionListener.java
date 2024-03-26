@@ -1,14 +1,10 @@
 package com.andrew.frostycore.Listeners;
 
-import com.andrew.frostycore.Enums.RankEnum;
 import com.andrew.frostycore.Main;
 import com.andrew.frostycore.Managers.CustomPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -29,17 +25,31 @@ public class ConnectionListener implements Listener {
             try {
                 CustomPlayer playerData = new CustomPlayer(main, player.getUniqueId());
                 main.getPlayerManager().addCustomPlayer(player.getUniqueId(), playerData);
-                main.getPlayerManager().getCustomPlayer(player.getUniqueId()).setRank(RankEnum.MEMBER);
+                main.getPlayerManager().getCustomPlayer(player.getUniqueId()).setRank(CustomPlayer.RankEnum.MEMBER);
             } catch (SQLException ex) {
                 player.kickPlayer("Your data could not be loaded!");
             }
+        }
+
+        try {
+            CustomPlayer playerData = new CustomPlayer(main, player.getUniqueId());
+            main.getPlayerManager().addCustomPlayer(player.getUniqueId(), playerData);
+            main.getNameTagManager().setNameTags(player);
+            main.getNameTagManager().updateNameTag(player);
+
+        } catch (SQLException ex) {
+            player.kickPlayer("Your data could not be loaded!");
         }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
 
-    main.getPlayerManager().removeCustomPlayer(e.getPlayer().getUniqueId());
+        Player player = e.getPlayer();
+
+        main.getPlayerManager().removeCustomPlayer(e.getPlayer().getUniqueId());
+
+        main.getNameTagManager().removeTag(player);
 
 
     }
