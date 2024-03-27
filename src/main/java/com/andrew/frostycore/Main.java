@@ -38,6 +38,8 @@ public final class Main extends JavaPlugin {
         database = new Database();
         try {
             database.connect();
+            database.initializeDatabase();
+            System.out.println(ChatColor.GREEN + "Connected to the database.");
         } catch (Exception e) {
             System.out.println(ChatColor.RED + "ERROR: Could not connect to the database.");
         }
