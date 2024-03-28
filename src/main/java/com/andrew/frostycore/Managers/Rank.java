@@ -7,43 +7,57 @@ import java.util.List;
 
 public class Rank {
 
-    private String name;
+    private int rankId;
+    private boolean staff;
+    private String prefix;
+    private String rankName;
+    private String rankPrefix;
 
-    private String display;
-
-    private char rankRanking;
-
-    private List<String> perms = new ArrayList<>();
-
-
-    public Rank(String name, String display, char rankRanking) {
-        this.name = name;
-        this.display = display;
-        this.rankRanking = rankRanking;
+    public Rank(int rankId, String rankName, boolean staff){
+        this.rankId = rankId;
+        this.rankName = rankName;
+        this.staff = staff;
     }
 
-    public String getName() {
-        return this.name;
+
+    public boolean isStaff() {
+        return staff;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStaff(boolean staff) {
+        this.staff = staff;
     }
 
-    public String getDisplay() {
-        return ChatColorUtil.colorize(this.display);
+    public String getPrefix() {
+        return prefix;
     }
 
-    public void setDisplay(String display) {
-        this.display = display;
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
     }
 
-    public char getRankRanking() {
-        return this.rankRanking;
+    public int getRankId() {
+        return rankId;
     }
 
-    public void setRankRanking(char rankRanking) {
-        this.rankRanking = rankRanking;
+    public void setRankId(int rankId) {
+        this.rankId = rankId;
+    }
+
+    public String getRankName(){
+        return rankName;
+    }
+
+    public void setRankName(String rankName){
+        this.rankName = rankName;
+    }
+
+    public String getRankPrefix(){
+        return rankPrefix;
+    }
+
+    public void setRankPrefix(String rankPrefix){
+        this.rankPrefix = rankPrefix;
     }
 }
 

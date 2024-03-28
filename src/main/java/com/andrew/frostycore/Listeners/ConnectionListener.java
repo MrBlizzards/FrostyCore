@@ -21,14 +21,19 @@ public class ConnectionListener implements Listener {
 
         Player player = e.getPlayer();
 
+        if (!player.hasPlayedBefore()) {
+            try {
+                CustomPlayer playerData = new CustomPlayer(main, player.getUniqueId());
+                main.getPlayerManager().addCustomPlayer(player.getUniqueId(), playerData);
+                main.getPlayerManager().getCustomPlayer(player.getUniqueId()).setRank(CustomPlayer.RankEnum.MEMBER);
+            } catch (SQLException ex) {
+                player.kickPlayer("Your data could not be loaded!");
+            }
+        }
+
         try {
             CustomPlayer playerData = new CustomPlayer(main, player.getUniqueId());
             main.getPlayerManager().addCustomPlayer(player.getUniqueId(), playerData);
-
-            if (!player.hasPlayedBefore()) {
-                playerData.initializePlayer(); // Initialize the player
-            }
-
             main.getNameTagManager().setNameTags(player);
             main.getNameTagManager().updateNameTag(player);
 

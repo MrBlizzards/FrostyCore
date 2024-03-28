@@ -1,33 +1,38 @@
 package com.andrew.frostycore.Listeners;
 
+import com.andrew.frostycore.Database.Database;
 import com.andrew.frostycore.Main;
-import com.andrew.frostycore.Managers.CustomPlayer;
+import com.andrew.frostycore.Managers.Rank;
+import com.andrew.frostycore.Managers.RankManager;
 import com.andrew.frostycore.Utils.ChatColorUtil;
 import com.andrew.frostycore.Utils.ServerMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.*;
 
+import java.sql.SQLException;
+
 public class ScoreBoardListener implements Listener {
 
     private Main main;
+    private Database database;
 
-    public ScoreBoardListener(Main main) {
+    public ScoreBoardListener(Main main, Database database) {
+        this.database = database;
         this.main = main;
     }
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
+    public void onJoin(PlayerJoinEvent e) throws SQLException {
 
         createBoard(e.getPlayer());
     }
 
-    public void createBoard(Player player) {
+    public void createBoard(Player player) throws SQLException {
         // CREATE THE SCOREBOARD
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard board = manager.getNewScoreboard();
@@ -42,7 +47,7 @@ public class ScoreBoardListener implements Listener {
         player.setScoreboard(board);
     }
 
-    public void createSidebar(Scoreboard board, Player player) {
+    public void createSidebar(Scoreboard board, Player player) throws SQLException {
         Objective obj = board.registerNewObjective("Sidebar-Rank", "dummy", ChatColorUtil.colorize(ServerMessage.getServerPrefix()));
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
@@ -65,7 +70,13 @@ public class ScoreBoardListener implements Listener {
         team1.addEntry(teamKey);
         team1.setPrefix(ChatColorUtil.colorize("&7&lRank: "));
 
-        team1.setSuffix(main.getPlayerManager().getCustomPlayer(player.getUniqueId()).getRank().getDisplay());
+        String playerRank = database.findPlayerStatsByUUID(player.getUniqueId()).getRank();
+        Rank rank = RankManager.getRankName(playerRank);
+        if (rank != null) {
+            team1.setSuffix(rank.getPrefix());
+        }
+
+        player.setPlayerListName(team1.getPrefix() + " " + ChatColor.GRAY + player.getName());
 
         obj.getScore(teamKey).setScore(4);
 
@@ -82,16 +93,19 @@ public class ScoreBoardListener implements Listener {
         website.setScore(1);
     }
 
-    private void createPlayerList(Scoreboard board, Player player) {
+    private void createPlayerList(Scoreboard board, Player player) throws SQLException {
         Objective playerListObj = board.registerNewObjective("playerlist", "dummy");
         playerListObj.setDisplaySlot(DisplaySlot.PLAYER_LIST);
 
         Team team2 = board.registerNewTeam("team2");
 
-        team2.setPrefix(main.getPlayerManager().getCustomPlayer(player.getUniqueId()).getRank().getDisplay());
+        String playerRank = database.findPlayerStatsByUUID(player.getUniqueId()).getRank();
+        Rank rank = RankManager.getRankName(playerRank);
+        if (rank != null) {
+            team2.setPrefix(rank.getPrefix());
+        }
 
         player.setPlayerListName(team2.getPrefix() + " " + ChatColor.GRAY + player.getName());
 
     }
 }
-
