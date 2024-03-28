@@ -3,6 +3,7 @@ package com.andrew.frostycore.Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Database {
 
@@ -35,6 +36,19 @@ public class Database {
                   e.printStackTrace();
               }
           }
+    }
+
+    public void initializeDatabase() throws SQLException {
+
+        Statement statement = getConnection().createStatement();
+
+        //Create the player_stats table
+        String sql = "CREATE TABLE IF NOT EXISTS players (ID int primary key, UUID varchar(36), USERNAME varchar(20), RANK varchar(30), COINS int)";
+
+        statement.execute(sql);
+
+        statement.close();
+
     }
 
 }

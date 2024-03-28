@@ -110,9 +110,9 @@ public class CustomPlayer {
         }
     }
 
-    private void initializePlayer() throws SQLException {
+    public void initializePlayer() throws SQLException {
 
-        PreparedStatement statement = main.getDatabase().getConnection().prepareStatement("SELECT RANK, USERNAME, COINS FROM players WHERE UUID = ?; ");
+        PreparedStatement statement = main.getDatabase().getConnection().prepareStatement("SELECT USERNAME, RANK, COINS FROM players WHERE UUID = ?; ");
         statement.setString(1, uuid.toString());
         ResultSet rs = statement.executeQuery();
         if (rs.next()) {
@@ -122,6 +122,7 @@ public class CustomPlayer {
         } else {
             rank = RankEnum.MEMBER.name();
             coins = 0;
+            username = getName();
             PreparedStatement statement1 = main.getDatabase().getConnection().prepareStatement("INSERT INTO players (ID, UUID, USERNAME, RANK, COINS) VALUES (" +
                     "default," +
                     "'" + uuid + "'," +
@@ -129,6 +130,7 @@ public class CustomPlayer {
                     "'" + rank + "'," +
                     coins + ");");
             statement1.executeUpdate();
+            statement1.close();
         }
     }
 
