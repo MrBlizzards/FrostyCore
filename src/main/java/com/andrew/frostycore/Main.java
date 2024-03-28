@@ -10,7 +10,7 @@ import com.andrew.frostycore.Listeners.ConnectionListener;
 import com.andrew.frostycore.Listeners.MenuListener;
 import com.andrew.frostycore.Listeners.ScoreBoardListener;
 import com.andrew.frostycore.Managers.NameTagManager;
-import com.andrew.frostycore.Managers.PlayerManager;
+import com.andrew.frostycore.Managers.RankManager;
 import com.andrew.frostycore.Managers.WarpManager;
 import com.andrew.frostycore.MenuSystem.PlayerMenuUtility;
 import org.bukkit.Bukkit;
@@ -26,9 +26,9 @@ public final class Main extends JavaPlugin {
     public static Main plugin;
     private static final HashMap<Player, PlayerMenuUtility> playerMenuUtilityMap = new HashMap<>();
     private Database database;
-    private PlayerManager playerManager;
     private NameTagManager nameTagManager;
     private WarpManager warpManager;
+    private RankManager rankManager;
 
     @Override
     public void onEnable() {
@@ -37,16 +37,17 @@ public final class Main extends JavaPlugin {
 
         database = new Database();
         try {
-            database.connect();
+            this.database.initializeDatabase();
+            database.getConnection();
             database.initializeDatabase();
             System.out.println(ChatColor.GREEN + "Connected to the database.");
         } catch (Exception e) {
             System.out.println(ChatColor.RED + "ERROR: Could not connect to the database.");
         }
 
-        playerManager = new PlayerManager();
-        nameTagManager = new NameTagManager(this);
+        nameTagManager = new NameTagManager(database);
         warpManager = new WarpManager(this);
+        rankManager = new RankManager();
 
         registerListeners();
         registerCommands();
@@ -55,24 +56,23 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        database.disconnect();
     }
 
     // RETURNS DATABASE
     public Database getDatabase() { return database; }
 
     // RETURNS PLAYER MANAGER
-    public PlayerManager getPlayerManager() { return playerManager; }
     public NameTagManager getNameTagManager() { return nameTagManager; }
     public WarpManager getWarpManager() { return warpManager; }
+    public RankManager getRankManager() { return rankManager; }
 
     // RETURNS NAME TAG MANAGER
 
     // REGISTERS LISTENERS
     private void registerListeners() {
-        registerListeners(new ConnectionListener(this));
+        registerListeners(new ConnectionListener(this, database, rankManager));
         registerListeners(new MenuListener());
-        registerListeners(new ScoreBoardListener(this));
+        registerListeners(new ScoreBoardListener(this, database));
     }
 
     // REGISTERS LISTENERS
@@ -100,7 +100,7 @@ public final class Main extends JavaPlugin {
         new KillCommand(this);
         new MorningCommand();
         new NightCommand();
-        new RankCommand(this);
+        new RankCommand(this, database);
         new SetWarpCommand(this);
 
         // STAFF COMMANDS
