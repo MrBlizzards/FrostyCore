@@ -41,7 +41,7 @@ public class WarpCommand extends CommandManager {
             return;
         }
 
-        if (warps.contains(args[0].toLowerCase())) {
+        if (warps.contains(args[0])) {
             player.teleport(main.getWarpManager().getWarp(args[0]));
             player.sendMessage(ChatColorUtil.colorize(ServerMessage.getServerPrefix() +" &aTeleported to " + args[0]));
             return;
