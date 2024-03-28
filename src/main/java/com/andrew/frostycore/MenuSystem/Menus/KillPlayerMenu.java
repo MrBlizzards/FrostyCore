@@ -1,7 +1,6 @@
 package com.andrew.frostycore.MenuSystem.Menus;
 
 import com.andrew.frostycore.Main;
-import com.andrew.frostycore.Managers.CustomPlayer;
 import com.andrew.frostycore.MenuSystem.PaginatedMenu;
 import com.andrew.frostycore.MenuSystem.PlayerMenuUtility;
 import org.bukkit.Bukkit;
@@ -15,7 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 import static org.bukkit.Bukkit.getServer;
